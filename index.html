@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Polity Mock Test - Constitutional Development</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col select-none">
+
+  <!-- ================= PHASE 1: ENTRY SCREEN ================= -->
+  <div id="phase1" class="flex-1 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8 max-w-md w-full">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-200 text-white text-2xl font-bold">
+          <i class="fa-solid fa-landmark"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">Polity Mock Test</h1>
+        <p class="text-sm text-gray-500 mt-1">भारत का संवैधानिक विकास (Constitutional Development)</p>
+      </div>
+
+      <form id="entryForm" onsubmit="event.preventDefault(); goToInstructions();" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">पूरा नाम (Full Name)</label>
+          <input type="text" id="studentName" required placeholder="अपना नाम दर्ज करें" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">रोल नंबर (Roll Number)</label>
+          <input type="text" id="studentRoll" required placeholder="अपना रोल नंबर दर्ज करें" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+        </div>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition duration-200 flex items-center justify-center gap-2">
+          <span>आगे बढ़ें (Proceed)</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= PHASE 2: INSTRUCTIONS SCREEN ================= -->
+  <div id="phase2" class="hidden flex-1 flex flex-col p-4 max-w-2xl mx-auto w-full">
+    <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 flex-1 flex flex-col justify-between">
+      <div>
+        <div class="border-b pb-4 mb-4 flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-gray-900">परीक्षा निर्देश (Exam Instructions)</h2>
+            <p class="text-xs text-gray-500 mt-0.5">कृपया आगे बढ़ने से पहले सभी नियमों को ध्यान से पढ़ें</p>
+          </div>
+          <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full border border-blue-200">40 Questions</span>
+        </div>
+
+        <div class="bg-gray-50 rounded-xl p-4 mb-5 border border-gray-200 flex items-center justify-between">
+          <div>
+            <p class="text-xs text-gray-500">अभ्यर्थी (Candidate)</p>
+            <p id="dispStudentName" class="font-bold text-gray-800 text-sm">-</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-500">रोल नंबर (Roll No)</p>
+            <p id="dispStudentRoll" class="font-mono font-bold text-gray-800 text-sm">-</p>
+          </div>
+        </div>
+
+        <div class="space-y-3 text-xs sm:text-sm text-gray-600">
+          <div class="flex gap-2">
+            <i class="fa-solid fa-clock text-blue-600 mt-1"></i>
+            <p><strong>कुल समय:</strong> 40 मिनट। प्रत्येक प्रश्न के लिए अनुशंसित समय 01:12 मिनट है।</p>
+          </div>
+          <div class="flex gap-2">
+            <i class="fa-solid fa-list-check text-blue-600 mt-1"></i>
+            <p><strong>कुल प्रश्न:</strong> 40 बहुविकल्पीय प्रश्न (MCQs)</p>
+          </div>
+          <div class="flex gap-2">
+            <i class="fa-solid fa-palette text-blue-600 mt-1"></i>
+            <p><strong>रंग कोड संकेत:</strong></p>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pl-6 text-xs">
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-green-500 inline-block"></span> उत्तर दिया (Answered)</div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-red-500 inline-block"></span> उत्तर नहीं दिया (Not Answered)</div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-purple-600 inline-block"></span> पुनरीक्षण हेतु चिह्नित (Review)</div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-gray-300 inline-block"></span> देखा नहीं गया (Not Visited)</div>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="startTest()" class="mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-green-200 transition duration-200 flex items-center justify-center gap-2">
+        <i class="fa-solid fa-play text-xs"></i>
+        <span>परीक्षण शुरू करें (Start Test)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= PHASE 3: LIVE MOCK TEST ENGINE ================= -->
+  <div id="phase3" class="hidden flex-1 flex flex-col h-screen overflow-hidden bg-gray-100">
+    <!-- Top Header Navigation -->
+    <header class="bg-blue-900 text-white px-3 py-2 sm:px-4 sm:py-3 flex justify-between items-center shadow-md shrink-0">
+      <div class="flex items-center gap-2">
+        <div class="bg-blue-800 p-1.5 rounded-lg text-xs flex items-center gap-1.5">
+          <i class="fa-regular fa-clock text-blue-300"></i>
+          <span class="text-gray-300 hidden sm:inline">Overall:</span>
+          <span id="overallTimer" class="font-mono font-bold text-yellow-300">40:00</span>
+        </div>
+      </div>
+
+      <!-- Question Timer Center -->
+      <div class="bg-yellow-500 text-gray-900 px-3 py-1 rounded-full font-bold text-xs flex items-center gap-1 shadow">
+        <i class="fa-solid fa-stopwatch"></i>
+        <span>Q Timer:</span>
+        <span id="qTimer" class="font-mono">01:12</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="toggleLanguage()" class="bg-blue-800 border border-blue-700 px-2 py-1 rounded text-xs hover:bg-blue-700 transition">
+          <span id="langBtn">हिंदी | Eng</span>
+        </button>
+        <button onclick="toggleDrawer()" class="p-1.5 text-lg hover:bg-blue-800 rounded">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Active Test Viewport -->
+    <main class="flex-1 overflow-y-auto p-3 sm:p-4 custom-scrollbar flex flex-col justify-between">
+      <div id="quizContainer" class="max-w-3xl mx-auto w-full bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 mb-4">
+        <!-- Question Meta Header -->
+        <div class="flex justify-between items-center border-b pb-2 mb-3 text-xs text-gray-500">
+          <span class="font-bold text-blue-700 text-sm" id="qNumHeading">प्रश्न 1 / 40</span>
+          <span id="qStatusBadge" class="px-2 py-0.5 rounded bg-gray-100 text-gray-600 font-medium">देख रहे हैं</span>
+        </div>
+
+        <!-- Question Body Text -->
+        <div id="questionText" class="text-sm sm:text-base font-semibold text-gray-800 mb-4 leading-relaxed">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- SVG / Matrix / Graphic Node Placeholder -->
+        <div id="graphicNode" class="mb-4 hidden"></div>
+
+        <!-- Options Block -->
+        <div id="optionsContainer" class="space-y-2.5">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Solution / Explanation Container (Hidden until Revision/Submission) -->
+        <div id="explanationBox" class="mt-5 p-4 bg-blue-50 rounded-xl border border-blue-200 text-xs sm:text-sm text-gray-700 hidden">
+          <p class="font-bold text-blue-900 mb-1 flex items-center gap-1">
+            <i class="fa-solid fa-lightbulb text-yellow-500"></i> स्पष्टीकरण (Explanation):
+          </p>
+          <div id="explanationText" class="leading-relaxed"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Persistent Bottom Control Panel -->
+    <footer class="bg-white border-t border-gray-200 p-2 sm:p-3 shrink-0 flex flex-col gap-2">
+      <!-- Action Buttons Row 1 -->
+      <div class="flex gap-2 max-w-3xl mx-auto w-full">
+        <button onclick="markForReviewAndNext()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-semibold py-2.5 rounded-lg shadow transition flex items-center justify-center gap-1">
+          <i class="fa-solid fa-bookmark text-xs"></i>
+          <span class="truncate">Mark & Next</span>
+        </button>
+        <button onclick="saveAndNext()" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm font-semibold py-2.5 rounded-lg shadow transition flex items-center justify-center gap-1">
+          <i class="fa-solid fa-check text-xs"></i>
+          <span class="truncate">Save & Next</span>
+        </button>
+      </div>
+
+      <!-- Action Buttons Row 2 -->
+      <div class="flex justify-between items-center max-w-3xl mx-auto w-full pt-1 text-xs sm:text-sm">
+        <button onclick="previousQuestion()" class="text-gray-600 hover:text-gray-900 font-medium px-2 py-1 flex items-center gap-1">
+          <i class="fa-solid fa-chevron-left text-xs"></i> Previous
+        </button>
+        <button onclick="clearResponse()" class="text-red-500 hover:text-red-700 font-medium px-2 py-1">
+          Clear Response
+        </button>
+        <button onclick="confirmSubmit()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-1.5 rounded-lg shadow transition">
+          Submit Test
+        </button>
+      </div>
+    </footer>
+
+    <!-- Side Palette Drawer Overlay -->
+    <div id="drawerOverlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity"></div>
+    <aside id="drawer" class="fixed top-0 right-0 bottom-0 w-80 bg-white z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+      <div class="p-4 bg-blue-900 text-white flex justify-between items-center">
+        <h3 class="font-bold text-sm">प्रश्न पैलेट (Question Palette)</h3>
+        <button onclick="toggleDrawer()" class="text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Status Summary Stats -->
+      <div class="p-3 bg-gray-50 border-b border-gray-200 grid grid-cols-2 gap-2 text-xs">
+        <div class="flex items-center gap-1.5"><span id="countAnswered" class="w-2.5 h-2.5 rounded-full bg-green-500"></span> उत्तर दिया: 0</div>
+        <div class="flex items-center gap-1.5"><span id="countNotAnswered" class="w-2.5 h-2.5 rounded-full bg-red-500"></span> उत्तर नहीं दिया: 0</div>
+        <div class="flex items-center gap-1.5"><span id="countReview" class="w-2.5 h-2.5 rounded-full bg-purple-600"></span> रिव्यू हेतु: 0</div>
+        <div class="flex items-center gap-1.5"><span id="countNotVisited" class="w-2.5 h-2.5 rounded-full bg-gray-300"></span> नहीं देखा: 40</div>
+      </div>
+
+      <!-- Scrollable Grid Matrix -->
+      <div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
+        <div id="paletteGrid" class="grid grid-cols-5 gap-2.5">
+          <!-- 1 to 40 generated dynamically -->
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ================= SCORE DASHBOARD SCREEN ================= -->
+  <div id="phaseScore" class="hidden flex-1 p-4 max-w-2xl mx-auto w-full flex flex-col justify-center">
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8 text-center">
+      <div id="scoreBadge" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-lg">
+        <!-- Icon inserted by JS -->
+      </div>
+      <h2 id="resultTitle" class="text-2xl font-bold text-gray-900 mb-1">परिणाम (Test Result)</h2>
+      <p id="resultSubtitle" class="text-sm text-gray-500 mb-6">आपने मॉक टेस्ट सफलतापूर्वक पूरा कर लिया है</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+          <p class="text-xs text-gray-500">कुल स्कोर</p>
+          <p id="scoreMarks" class="text-lg font-bold text-gray-800">0 / 40</p>
+        </div>
+        <div class="bg-green-50 p-3 rounded-xl border border-green-200">
+          <p class="text-xs text-green-600">सही उत्तर</p>
+          <p id="scoreCorrect" class="text-lg font-bold text-green-700">0</p>
+        </div>
+        <div class="bg-red-50 p-3 rounded-xl border border-red-200">
+          <p class="text-xs text-red-600">गलत उत्तर</p>
+          <p id="scoreWrong" class="text-lg font-bold text-red-700">0</p>
+        </div>
+        <div class="bg-blue-50 p-3 rounded-xl border border-blue-200">
+          <p class="text-xs text-blue-600">प्रतिशतता</p>
+          <p id="scorePercent" class="text-lg font-bold text-blue-700">0%</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="reviewTest()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow transition">
+          प्रश्नों की समीक्षा करें (Review Answers)
+        </button>
+        <button onclick="location.reload()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-xl transition">
+          पुनः प्रयास करें (Retake Test)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Javascript Logic & Hardcoded Question Database -->
+  <script>
+    // ================= FULL HARDCODED QUESTION DATABASE (1 to 40) =================
+    const quizData = [
+      {
+        qNum: 1,
+        question: "भारत में गवर्नर जनरल पद के विकास का सही क्रम कौन-सा है?",
+        options: [
+          "(A) बंगाल का गवर्नर → बंगाल का गवर्नर जनरल (1773) → भारत का गवर्नर जनरल (1833) → भारत का वायसराय (1858)",
+          "(B) बंगाल का गवर्नर जनरल → भारत का वायसराय → बंगाल का गवर्नर → भारत का गवर्नर जनरल",
+          "(C) बंगाल का गवर्नर → भारत का वायसराय → बंगाल का गवर्नर जनरल → भारत का गवर्नर जनरल",
+          "(D) भारत का गवर्नर जनरल → बंगाल का गवर्नर → भारत का वायसराय → बंगाल का गवर्नर जनरल"
+        ],
+        ans: 0,
+        explanation: "पद का क्रमिक विकास बंगाल का गवर्नर, फिर 1773 में बंगाल गवर्नर जनरल, 1833 में भारत गवर्नर जनरल और 1858 में वायसराय हुआ।"
+      },
+      {
+        qNum: 2,
+        question: "चार्टर एक्ट, 1833 की धारा 87 से संबंधित कौन-सा कथन सही है?",
+        options: [
+          "(A) इसने भारतीय राजाओं को सीधे ब्रिटिश ताज के अधीन कर दिया।",
+          "(B) किसी भी भारतीय को केवल धर्म, जन्मस्थान, वंश या वर्ण के आधार पर कंपनी के अधीन सेवा के लिए अयोग्य नहीं ठहराया जा सकता था।",
+          "(C) इसने प्रांतीय विधान परिषदों में गैर-सरकारी सदस्यों का बहुमत अनिवार्य कर दिया।",
+          "(D) इसके तहत सिविल सेवा परीक्षा केवल लंदन में आयोजित करने का अनिवार्य नियम बना।"
+        ],
+        ans: 1,
+        explanation: "1833 के एक्ट की धारा 87 ने धर्म, जाति, रंग व वंश के आधार पर भेदभाव समाप्त कर भारतीयों के लिए सेवाओं के द्वार खोले।"
+      },
+      {
+        qNum: 3,
+        question: "1773 के रेगुलेटिंग एक्ट की कार्यकारी परिषद के सदस्यों के संदर्भ में कौन-सा युग्म असुमेलित है?",
+        options: [
+          "(A) सदस्य 1 — फ्रांसिस",
+          "(B) सदस्य 3 — लॉर्ड मैकाले",
+          "(C) सदस्य 2 — क्लेवरिंग",
+          "(D) सदस्य 4 — मॉनसन"
+        ],
+        ans: 1,
+        explanation: "1773 की परिषद के चार सदस्य फ्रांसिस, क्लेवरिंग, मॉनसन और बारवेल थे। लॉर्ड मैकाले 1833 में चौथे कानूनी सदस्य बने थे।"
+      },
+      {
+        qNum: 4,
+        question: "कौन-सा कथन सही है?",
+        options: [
+          "(A) भारत शासन अधिनियम, 1919 द्वारा पहली बार केंद्र में द्विसदनीय व्यवस्था स्थापित की गई और प्रत्यक्ष चुनाव प्रणाली अपनाई गई।",
+          "(B) चार्टर एक्ट 1793 द्वारा कंपनी के व्यापारिक अधिकारों को अनिश्चित काल के लिए बढ़ा दिया गया था।",
+          "(C) 1858 के अधिनियम द्वारा भारत के राज्य सचिव के लिए 5 सदस्यीय परिषद बनाई गई थी।",
+          "(D) भारत शासन अधिनियम, 1919 द्वारा पहली बार मुस्लिमों को पृथक निर्वाचन दिया गया।"
+        ],
+        ans: 0,
+        explanation: "1919 के मोंटेग्यू-चेम्सफोर्ड सुधार द्वारा केंद्र में राज्य परिषद और विधानसभा वाली द्विसदनीय व्यवस्था पहली बार बनी।"
+      },
+      {
+        qNum: 5,
+        question: "भारत में निर्वाचन एवं प्रतिनिधित्व के विस्तार की घटनाओं को कालानुक्रम (प्राचीन से नवीन) व्यवस्थित कीजिए:<br>1. 1892 के अधिनियम द्वारा सीमित निर्वाचन पद्धति की शुरुआत<br>2. 1909 के सुधारों द्वारा मुस्लिमों हेतु पृथक निर्वाचन<br>3. 1919 के एक्ट द्वारा प्रत्यक्ष निर्वाचन और सिखों/ईसाईयों तक विस्तार<br>4. 1935 के एक्ट द्वारा दलितों, महिलाओं और श्रमिकों हेतु विस्तार",
+        options: [
+          "(A) 1, 2, 3, 4",
+          "(B) 4, 3, 2, 1",
+          "(C) 1, 3, 2, 4",
+          "(D) 2, 1, 4, 3"
+        ],
+        ans: 0,
+        explanation: "भारत में निर्वाचन व्यवस्था का क्रमिक विस्तार क्रमशः 1892, 1909, 1919 और 1935 के अधिनियमों द्वारा संपन्न हुआ था।"
+      },
+      {
+        qNum: 6,
+        question: "कथन (A): 1861 के भारत परिषद अधिनियम ने विधायी विकेंद्रीकरण की नींव रखी।<br>कारण (R): इस अधिनियम ने बंबई और मद्रास प्रेसीडेंसियों को अपनी विधि निर्माण की शक्तियाँ पुनः प्रदान कीं।",
+        options: [
+          "(A) A सही हैं किंतु R गलत हैं",
+          "(B) A और R दोनों सही हैं और R, A का सही स्पष्टीकरण हैं",
+          "(C) A गलत हैं किंतु R सही हैं",
+          "(D) A और R दोनों सही हैं और R, A का सही स्पष्टीकरण नहीं हैं"
+        ],
+        ans: 1,
+        explanation: "1833 द्वारा छीनी गई विधायी शक्तियाँ 1861 में बंबई व मद्रास को पुनः लौटा दी गईं, जिससे विधायी विकेंद्रीकरण प्रारंभ हुआ।"
+      },
+      {
+        qNum: 7,
+        question: "निम्नलिखित में से कौन-सा क्रम भारत में आंग्ल शिक्षा नीति के विकास की प्रक्रिया से सबसे अधिक संबंधित है?",
+        options: [
+          "(A) जनरल कमेटी ऑफ पब्लिक इंस्ट्रक्शन (1823) → मैकाले का प्रस्ताव (1835) → 1813 का चार्टर एक्ट",
+          "(B) मैकाले का प्रस्ताव (1835) → 1813 का चार्टर एक्ट → जनरल कमेटी ऑफ पब्लिक इंस्ट्रक्शन (1823)",
+          "(C) 1813 का चार्टर एक्ट → जनरल कमेटी ऑफ पब्लिक इंस्ट्रक्शन (1823) → मैकाले का प्रस्ताव (1835)",
+          "(D) 1813 का चार्टर एक्ट → मैकाले का प्रस्ताव (1835) → जनरल कमेटी ऑफ पब्लिक इंस्ट्रक्शन (1823)"
+        ],
+        ans: 2,
+        explanation: "1813 एक्ट में 1 लाख का प्रावधान, 1823 में शिक्षा समिति का गठन और 1835 में मैकाले प्रस्ताव द्वारा अंग्रेजी को माध्यम बनाया गया।"
+      },
+      {
+        qNum: 8,
+        question: "कथन (A): 1773 के रेगुलेटिंग एक्ट द्वारा कंपनी के कर्मचारियों के निजी व्यापार पर प्रतिबंध लगा दिया गया।<br>कारण (R): कंपनी के कर्मचारियों द्वारा भारतीयों से रिश्वत एवं उपहार लेने से कंपनी का प्रशासनिक और आर्थिक ढांचा प्रभावित हो रहा था।",
+        options: [
+          "(A) (A) गलत है, परंतु (R) सही है।",
+          "(B) (A) सही है, परंतु (R) गलत है।",
+          "(C) (A) और (R) दोनों सही हैं तथा (R), (A) की सही व्याख्या करता है।",
+          "(D) (A) और (R) दोनों सही हैं, परंतु (R), (A) की सही व्याख्या नहीं करता है।"
+        ],
+        ans: 2,
+        explanation: "कर्मचारियों के भ्रष्टाचार, अनियंत्रित निजी व्यापार और उपहार लेने पर रोक लगाकर कंपनी को विनियमित करने हेतु यह एक्ट बना था।"
+      },
+      {
+        qNum: 9,
+        question: "भारत शासन अधिनियम, 1919 के तहत प्रांतीय विषयों के विभाजन के संदर्भ में इनमें से कौन-सा विकल्प सही है?",
+        options: [
+          "(A) सांप्रदायिक निर्वाचन को समाप्त कर केवल सामान्य निर्वाचन को मान्यता दी गई।",
+          "(B) सभी प्रांतीय विषयों को केवल केंद्र सरकार के प्रत्यक्ष नियंत्रण में रखा गया था।",
+          "(C) इसके तहत 10 वर्ष पूर्व ही किसी भी प्रकार के आयोग गठन पर पूर्ण प्रतिबंध लगा दिया गया।",
+          "(D) प्रांतीय विषयों को दो स्पष्ट भागों—आरक्षित (Reserved) तथा हस्तांतरित (Transferred) विषयों में बांटा गया था।"
+        ],
+        ans: 3,
+        explanation: "1919 के एक्ट द्वारा प्रांतों में द्वैध शासन लगा और प्रांतीय विषयों को आरक्षित तथा हस्तांतरित दो वर्गों में बांटा गया।"
+      },
+      {
+        qNum: 10,
+        question: "भारत शासन अधिनियम, 1935 के प्रमुख प्रावधानों और संबंधित संस्थाओं का सही मिलान कीजिए:<br>(A) भारतीय रिजर्व बैंक की स्थापना<br>(B) बर्मा का भारत से पृथक्करण<br>(C) संघीय न्यायालय की स्थापना<br><br>विशेषताएं :<br>1. वर्ष 1935 में आरबीआई एक्ट 1934 के तहत<br>2. गवर्नमेंट ऑफ बर्मा एक्ट 1935/प्रावधान के तहत<br>3. वर्ष 1937 में विधिवत गठन",
+        options: [
+          "(A) A-1, B-3, C-2",
+          "(B) A-1, B-2, C-3",
+          "(C) A-3, B-1, C-2",
+          "(D) A-2, B-1, C-3"
+        ],
+        ans: 1,
+        explanation: "आरबीआई की स्थापना 1935 में हुई, बर्मा को 1937 में अलग किया गया तथा संघीय न्यायालय की स्थापना 1937 में विधिवत हुई।"
+      },
+      {
+        qNum: 11,
+        question: "1813 के चार्टर एक्ट द्वारा ईस्ट इंडिया कंपनी के भारतीय व्यापारिक एकाधिकार को समाप्त करने का अपवाद प्रस्तुत करने वाला व्यापार क्षेत्र कौन-सा था?",
+        options: [
+          "(A) मसालों और कच्ची चीनी का व्यापार",
+          "(B) सूती वस्त्र और नील का व्यापार",
+          "(C) अफीम और नमक का व्यापार",
+          "(D) चाय का व्यापार तथा चीन के साथ व्यापार"
+        ],
+        ans: 3,
+        explanation: "1813 में कंपनी का भारतीय एकाधिकार समाप्त हुआ, परंतु चाय के व्यापार और चीन के साथ व्यापार पर एकाधिकार 1833 तक बना रहा।"
+      },
+      {
+        qNum: 12,
+        question: "ब्रिटिश कालीन शिक्षा समितियों और अनुदानों के संदर्भ में इनमें से कौन-सा विकल्प सही है?",
+        options: [
+          "(A) 1813 के चार्टर एक्ट में भारतीयों की शिक्षा पर प्रतिवर्ष 10 लाख रुपये खर्च करने का उपबंध था।",
+          "(B) 1823 ई. में गठित जनरल कमेटी ऑफ पब्लिक इंस्ट्रक्शन की मुख्य जिम्मेदारी 1 लाख रुपये के शिक्षा अनुदान के प्रबंधन की थी।",
+          "(C) General कमेटी ऑफ पब्लिक इंस्ट्रक्शन में कुल 25 भारतीय सदस्य शामिल थे।",
+          "(D) 1833 के एक्ट द्वारा पहली बार अंग्रेजी को आधिकारिक राजभाषा घोषित किया गया था।"
+        ],
+        ans: 1,
+        explanation: "1813 के एक्ट द्वारा स्वीकृत 1 लाख रुपये शिक्षा बजट के समुचित उपयोग हेतु 1823 में 10 सदस्यीय समिति गठित हुई थी।"
+      },
+      {
+        qNum: 13,
+        question: "कौन-सा कथन सही है?",
+        options: [
+          "(A) 1773 के एक्ट के तहत स्थापित कलकत्ता सर्वोच्च न्यायालय के प्रथम मुख्य न्यायाधीश लेमेस्टर थे।",
+          "(B) 1813 के चार्टर एक्ट द्वारा भारत का राजस्व सीधे ब्रिटिश संसद के नियंत्रण में आ गया था।",
+          "(C) 1786 के अधिनियम के तहत गवर्नर जनरल को अपनी परिषद के निर्णय को निरस्त करने और प्रधान सेनापति की शक्तियां सर्वप्रथम लॉर्ड कॉर्नवालिस को प्राप्त हुईं।",
+          "(D) 1853 के चार्टर एक्ट द्वारा सर्वप्रथम प्रांतों में द्विसदनीय व्यवस्था की स्थापना की गई।"
+        ],
+        ans: 2,
+        explanation: "1786 के विशेष अधिनियम द्वारा परिषद के निर्णय निरस्त करने और प्रधान सेनापति बनने का दोहरा अधिकार लॉर्ड कॉर्नवालिस को मिला।"
+      },
+      {
+        qNum: 14,
+        question: "1773 के रेगुलेटिंग एक्ट के संदर्भ में कौन सही है?<br>1. इसके द्वारा बंगाल के गवर्नर को 'बंगाल का गवर्नर जनरल' पदनाम दिया गया।<br>2. वॉरेन हेस्टिंग्स बंगाल का प्रथम गवर्नर जनरल बना।",
+        options: [
+          "(A) इनमें से कोई नहीं",
+          "(B) 1 और 2 दोनों",
+          "(C) केवल 2",
+          "(D) केवल 1"
+        ],
+        ans: 1,
+        explanation: "1773 के एक्ट से बंगाल के गवर्नर को गवर्नर जनरल बनाया गया तथा वॉरेन हेस्टिंग्स बंगाल का पहला गवर्नर जनरल बना।"
+      },
+      {
+        qNum: 15,
+        question: "भारत में संसदीय नियंत्रण के विकास का सही क्रम कौन-सा है?",
+        options: [
+          "(A) 1773 का रेगुलेटिंग एक्ट → 1784 का पिट्स इंडिया एक्ट → 1813 का चार्टर एक्ट → 1833 का चार्टर एक्ट",
+          "(B) 1833 का चार्टर एक्ट → 1813 का चार्टर एक्ट → 1784 का पिट्स इंडिया एक्ट → 1773 का रेगुलेटिंग एक्ट",
+          "(C) 1773 का रेगुलेटिंग एक्ट → 1813 का चार्टर एक्ट → 1784 का पिट्स इंडिया एक्ट → 1833 का चार्टर एक्ट",
+          "(D) 1784 का पिट्स इंडिया एक्ट → 1773 का रेगुलेटिंग एक्ट → 1833 का चार्टर एक्ट → 1813 का चार्टर एक्ट"
+        ],
+        ans: 0,
+        explanation: "ब्रिटिश संसद द्वारा कंपनी नियंत्रण का क्रमिक विकास 1773, 1784, 1813 और 1833 के चार्टर अधिनियमों के माध्यम से हुआ।"
+      },
+      {
+        qNum: 16,
+        question: "1833 के चार्टर एक्ट के तहत गवर्नर जनरल की परिषद में कानूनी सदस्य को सम्मिलित किए जाने के संदर्भ में प्रथम कानूनी सदस्य बनने वाला व्यक्ति कौन था?",
+        options: [
+          "(A) लॉर्ड कॉर्नवालिस",
+          "(B) वॉरेन हेस्टिंग्स",
+          "(C) लॉर्ड मैकाले",
+          "(D) सर एलिजा इम्पे"
+        ],
+        ans: 2,
+        explanation: "1833 के एक्ट के तहत गवर्नर जनरल की परिषद में चौथे सदस्य के रूप में सर्वप्रथम लॉर्ड मैकाले को कानूनी सदस्य बनाया गया।"
+      },
+      {
+        qNum: 17,
+        question: "निम्नलिखित में से कौन-सा क्रम 1858 के उपरांत ब्रिटिश प्रशासनिक पुनर्गठन की प्रक्रिया से सबसे अधिक संबंधित है?",
+        options: [
+          "(A) लॉर्ड कैनिंग का प्रथम वायसराय बनना → प्रांतों में द्वैध शासन → ईस्ट इंडिया कंपनी के शासन की समाप्ति",
+          "(B) भारत के राज्य सचिव पद का सृजन → 1833 का चार्टर एक्ट → पोर्टफोलियो प्रणाली का अंत",
+          "(C) ईस्ट इंडिया कंपनी के शासन की समाप्ति → भारत के राज्य सचिव पद का सृजन → लॉर्ड कैनिंग का प्रथम वायसराय बनना",
+          "(D) खुली सिविल सेवा परीक्षा → बोर्ड ऑफ कंट्रोल की स्थापना → ईस्ट इंडिया कंपनी के शासन की समाप्ति"
+        ],
+        ans: 2,
+        explanation: "1858 में कंपनी राज खत्म हुआ, 15 सदस्यीय परिषद सहित भारत सचिव पद सृजित हुआ और कैनिंग प्रथम वायसराय बना।"
+      },
+      {
+        qNum: 18,
+        question: "1853 के चार्टर एक्ट के संदर्भ में कौन सही है?<br>1. इसके द्वारा विधायी शक्तियों को कार्यपालिका शक्तियों से पृथक किया गया।<br>2. इसके तहत विधि निर्माण हेतु गवर्नर जनरल की विधायी परिषद गठित की गई।",
+        options: [
+          "(A) 1 और 2 दोनों",
+          "(B) केवल 1",
+          "(C) इनमें से कोई नहीं",
+          "(D) केवल 2"
+        ],
+        ans: 0,
+        explanation: "1853 के चार्टर एक्ट ने विधायी व प्रशासनिक कार्यों को अलग किया और एक नई 12 सदस्यीय केंद्रीय विधान परिषद का गठन किया।"
+      },
+      {
+        qNum: 19,
+        question: "निम्नलिखित में से कौन-सा युग्म गलत है?",
+        options: [
+          "(A) चार्टर एक्ट, 1853 — सिविल सेवकों के चयन हेतु खुली प्रतियोगिता का शुभारंभ",
+          "(B) भारत शासन अधिनियम, 1858 — भारत का शासन ब्रिटिश ताज के अधीन",
+          "(C) भारत शासन अधिनियम, 1919 — प्रांतों में द्वैध शासन प्रणाली की शुरुआत",
+          "(D) भारत परिषद अधिनियम, 1892 — बजट पर पूरक प्रश्न पूछने तथा मतदान का पूर्ण अधिकार"
+        ],
+        ans: 3,
+        explanation: "1892 के अधिनियम से बजट पर बहस करने का अधिकार मिला, परंतु पूरक प्रश्न पूछने और मतदान करने का अधिकार नहीं था।"
+      },
+      {
+        qNum: 20,
+        question: "ब्रिटिश भारत के प्रमुख अधिनियमों और उनकी मुख्य विशेषताओं का सही मिलान कीजिए:<br>(A) पिट्स इंडिया एक्ट, 1784<br>(B) चार्टर एक्ट, 1833<br>(C) भारत परिषद अधिनियम, 1861<br><br>विशेषताएं :<br>1. नियंत्रण बोर्ड (Board of Control) का गठन<br>2. गवर्नर जनरल की परिषद में कानूनी सदस्य की नियुक्ति<br>3. अध्यादेश जारी करने की वायसराय की शक्ति",
+        options: [
+          "(A) A-2, B-1, C-3",
+          "(B) A-1, B-3, C-2",
+          "(C) A-3, B-2, C-1",
+          "(D) A-1, B-2, C-3"
+        ],
+        ans: 3,
+        explanation: "पिट्स इंडिया एक्ट से बोर्ड ऑफ कंट्रोल बना, 1833 से कानूनी सदस्य जोड़ा गया तथा 1861 से वायसराय को अध्यादेश शक्ति मिली।"
+      },
+      {
+        qNum: 21,
+        question: "भारत परिषद अधिनियम, 1861 के विधायी उपबंधों के संदर्भ में इनमें से कौन-सा विकल्प सही है?",
+        options: [
+          "(A) इसके अंतर्गत भारतीय सदस्यों को बजट पर मतदान का पूर्ण अधिकार दे दिया गया था।",
+          "(B) इसने मद्रास और बंबई की विधायी शक्तियों को हमेशा के लिए पूरी तरह समाप्त कर दिया।",
+          "(C) विधि निर्माण हेतु अतिरिक्त सदस्यों की संख्या न्यूनतम 6 और अधिकतम 12 तय की गई, जिसमें से कम-से-कम आधे गैर-सरकारी होने अनिवार्य थे।",
+          "(D) वायसराय को अध्यादेश जारी करने की शक्ति दी गई जिसकी अवधि अनिश्चितकाल तक मान्य थी।"
+        ],
+        ans: 2,
+        explanation: "1861 के एक्ट द्वारा विधायी कार्यों हेतु 6 से 12 अतिरिक्त सदस्य तय हुए, जिनमें से न्यूनतम आधे सदस्य गैर-सरकारी होते थे।"
+      },
+      {
+        qNum: 22,
+        question: "कथन (A): 1833 के चार्टर एक्ट द्वारा कंपनी के समस्त व्यापारिक कार्य समाप्त कर दिए गए।<br>कारण (R): भविष्य में कंपनी को केवल राजनीतिक कार्य ही करने का दायित्व सौंपा गया।",
+        options: [
+          "(A) (A) सही है, परंतु (R) गलत है।",
+          "(B) (A) गलत है, परंतु (R) सही है।",
+          "(C) (A) और (R) दोनों सही हैं, परंतु (R), (A) की सही व्याख्या नहीं करता है।",
+          "(D) (A) और (R) दोनों सही हैं तथा (R), (A) की सही व्याख्या करता है।"
+        ],
+        ans: 3,
+        explanation: "1833 के चार्टर एक्ट ने ईस्ट इंडिया कंपनी के व्यावसायिक स्वरूप को समाप्त कर उसे पूर्णतः प्रशासनिक व राजनीतिक संस्था बना दिया।"
+      },
+      {
+        qNum: 23,
+        question: "लॉर्ड मैकाले द्वारा प्रस्तुत प्रसिद्ध स्मरण पत्र (प्रस्ताव), जिसे 7 मार्च 1835 को स्वीकृत किया गया, किस पर आधारित है?",
+        options: [
+          "(A) देशी प्राच्य भाषाओं के संरक्षण पर",
+          "(B) कंपनी के सैन्य प्रशासन के पुनर्गठन पर",
+          "(C) भारत में अंग्रेजी को उच्च शिक्षा का माध्यम बनाए जाने पर",
+          "(D) सिविल सेवाओं में जाति आधारित आरक्षण प्रणाली लागू करने पर"
+        ],
+        ans: 2,
+        explanation: "लॉर्ड मैकाले के प्रस्ताव को बैंटिक ने स्वीकृत कर भारत में अंग्रेजी भाषा को उच्च शिक्षा का माध्यम निर्धारित किया।"
+      },
+      {
+        qNum: 24,
+        question: "1935 के भारत शासन अधिनियम के अंतर्गत स्थापित संस्थाओं/प्रावधानों के संदर्भ में इनमें से कौन-सा विकल्प सही है?",
+        options: [
+          "(A) इसके तहत प्रांतों में द्वैध शासन को विस्तृत किया गया।",
+          "(B) संघीय न्यायालय की स्थापना वर्ष 1837 में की गई थी।",
+          "(C) इसके तहत 15 सदस्यीय इंडिया काउंसिल का नया गठन किया गया।",
+          "(D) भारतीय रिजर्व बैंक की स्थापना 1 अप्रैल, 1935 को रिजर्व बैंक अधिनियम, 1934 के तहत की गई।"
+        ],
+        ans: 3,
+        explanation: "भारत शासन अधिनियम 1935 के तहत देश में मुद्रा व साख नियंत्रण हेतु 1 अप्रैल 1935 को भारतीय रिजर्व बैंक स्थापित हुआ।"
+      },
+      {
+        qNum: 25,
+        question: "ब्रिटिश ताज के शासनाधीन पारित अधिनियमों को कालानुक्रम (प्राचीन से नवीन) व्यवस्थित कीजिए:<br>1. भारत परिषद अधिनियम, 1861<br>2. भारत परिषद अधिनियम, 1892<br>3. भारत परिषद अधिनियम, 1909<br>4. भारत शासन अधिनियम, 1919",
+        options: [
+          "(A) 1, 3, 2, 4",
+          "(B) 1, 2, 3, 4",
+          "(C) 4, 3, 2, 1",
+          "(D) 2, 1, 3, 4"
+        ],
+        ans: 1,
+        explanation: "ब्रिटिश ताज के अधीन क्रमशः 1861, 1892, 1909 (मार्ले-मिंटो) और 1919 (मोंटेग्यू-चेम्सफोर्ड) अधिनियम पारित किए गए थे।"
+      },
+      {
+        qNum: 26,
+        question: "1892 के भारतीय परिषद अधिनियम के संदर्भ में कौन सही है?<br>1. इसने केंद्रीय और प्रांतीय विधान परिषदों में अतिरिक्त गैर-सरकारी सदस्यों की संख्या बढ़ाई।<br>2. इसने भारतीय सदस्यों को बजट पर मतदान करने का पूर्ण अधिकार प्रदान किया।",
+        options: [
+          "(A) केवल 1",
+          "(B) 1 और 2 दोनों",
+          "(C) केवल 2",
+          "(D) इनमें से कोई नहीं"
+        ],
+        ans: 0,
+        explanation: "1892 के एक्ट ने विधान परिषदों में अतिरिक्त सदस्य बढ़ाए और बजट पर बहस का अधिकार दिया, परंतु मतदान का अधिकार नहीं दिया।"
+      },
+      {
+        qNum: 27,
+        question: "कथन (A): भारत परिषद अधिनियम, 1909 ने भारतीय समाज में सांप्रदायिक मतभेद को संस्थागत रूप दे दिया।<br>कारण (R): इसमें पृथक निर्वाचन के आधार पर मुसलमानों के लिए सांप्रदायिक प्रतिनिधित्व का प्रावधान किया गया था।",
+        options: [
+          "(A) A गलत हैं किंतु R सही हैं",
+          "(B) A सही हैं किंतु R गलत हैं",
+          "(C) A और R दोनों सही हैं और R, A का सही स्पष्टीकरण नहीं हैं",
+          "(D) A और R दोनों सही हैं और R, A का सही स्पष्टीकरण हैं"
+        ],
+        ans: 3,
+        explanation: "मार्ले-मिंटो सुधार (1909) द्वारा मुसलमानों को पृथक निर्वाचन मंडल प्रदान कर सांप्रदायिक प्रतिनिधित्व आरंभ किया गया।"
+      },
+      {
+        qNum: 28,
+        question: "चार्टर एक्ट, 1833 से संबंधित कौन-सा कथन सही है?",
+        options: [
+          "(A) इसने बंगाल के गवर्नर जनरल को संपूर्ण भारत का गवर्नर जनरल बना दिया और देश की शासन प्रणाली का केंद्रीकरण किया।",
+          "(B) इसके द्वारा पहली बार प्रांतों में द्वैध शासन प्रणाली लागू की गई।",
+          "(C) इसके तहत भारत के राज्य सचिव के लिए 15 सदस्यीय परिषद का गठन किया गया।",
+          "(D) इसके तहत चाय एवं चीन के साथ कंपनी का व्यापारिक एकाधिकार सुरक्षित रखा गया।"
+        ],
+        ans: 0,
+        explanation: "1833 के चार्टर एक्ट ने बंगाल के गवर्नर जनरल को भारत का गवर्नर जनरल बनाया तथा लॉर्ड विलियम बैंटिक प्रथम गवर्नर जनरल बना।"
+      },
+      {
+        qNum: 29,
+        question: "निम्नलिखित में से कौन-सा युग्म गलत है?",
+        options: [
+          "(A) भारत में संघीय न्यायालय की स्थापना — 1937",
+          "(B) भारत का प्रथम वायसराय — विलियम बैंटिक",
+          "(C) मोंटेग्यू-चेम्सफोर्ड सुधार — 1919",
+          "(D) मार्ले-मिंटो सुधार — 1909"
+        ],
+        ans: 1,
+        explanation: "विलियम बैंटिक 1833 में भारत का प्रथम गवर्नर जनरल बना था, जबकि 1858 में भारत का प्रथम वायसराय लॉर्ड कैनिंग बना।"
+      },
+      {
+        qNum: 30,
+        question: "आंग्ल-प्राच्य विवाद से जुड़े विद्वानों और उनके विचारों का सही मिलान पहचानिए:<br>(i) ट्रेविलियन -> आंग्ल शिक्षा माध्यम के समर्थक<br>(ii) एच.टी. प्रिंसेप -> प्राच्य शिक्षा माध्यम के समर्थक",
+        options: [
+          "(A) इनमें से कोई नहीं",
+          "(B) केवल 1",
+          "(C) केवल 2",
+          "(D) 1 और 2 दोनों"
+        ],
+        ans: 3,
+        explanation: "शिक्षा समिति (1823) में आंग्ल शिक्षा का नेतृत्व ट्रेविलियन ने और प्राच्य देशी शिक्षा का नेतृत्व एच.टी. प्रिंसेप ने किया था।"
+      },
+      {
+        qNum: 31,
+        question: "भारतीय संवैधानिक इतिहास से संबंधित प्रावधानों और उनके अधिनियमों का सही मिलान पहचानिए:<br>(i) विकेंद्रीकरण की शुरुआत -> भारत परिषद अधिनियम, 1861<br>(ii) वायसराय को आदेश जारी करने की शक्ति -> भारत परिषद अधिनियम, 1861",
+        options: [
+          "(A) केवल 1",
+          "(B) 1 और 2 दोनों",
+          "(C) इनमें से कोई नहीं",
+          "(D) केवल 2"
+        ],
+        ans: 1,
+        explanation: "1861 के एक्ट ने बंबई-मद्रास को विधायी शक्तियां लौटाकर विकेंद्रीकरण किया और वायसराय को 6 माह का अध्यादेश अधिकार दिया।"
+      },
+      {
+        qNum: 32,
+        question: "निम्न में से कौन-सा युग्म सही है?",
+        options: [
+          "(A) चार्टर एक्ट, 1813 — कंपनी के समस्त व्यापारिक कार्यों की पूर्ण समाप्ति",
+          "(B) रेगुलेटिंग एक्ट, 1773 — कलकत्ता में सर्वोच्च न्यायालय की स्थापना",
+          "(C) भारत शासन अधिनियम, 1919 — भारत के राज्य सचिव पद का सृजन",
+          "(D) पिट्स इंडिया एक्ट, 1784 — भारत में संघीय न्यायालय की स्थापना"
+        ],
+        ans: 1,
+        explanation: "1773 के रेगुलेटिंग एक्ट के तहत 1774 ई. में कलकत्ता में सर्वोच्च न्यायालय की स्थापना का ऐतिहासिक प्रावधान किया गया था।"
+      },
+      {
+        qNum: 33,
+        question: "निम्न में से कौन-सा युग्म सही है?",
+        options: [
+          "(A) भारत शासन अधिनियम, 1919 — केंद्र में पहली बार द्वैध शासन लागू होना",
+          "(B) 1773 का रेगुलेटिंग एक्ट — संपूर्ण भारत के लिए गवर्नर जनरल का पद सृजित होना",
+          "(C) भारत परिषद अधिनियम, 1892 — बजट पर विचार-विमर्श करने तथा 6 दिन की पूर्व सूचना पर प्रश्न पूछने का अधिकार",
+          "(D) भारत परिषद अधिनियम, 1861 — सांप्रदायिक निर्वाचन पद्धति की शुरुआत"
+        ],
+        ans: 2,
+        explanation: "1892 के अधिनियम द्वारा भारतीय सदस्यों को बजट पर बहस करने तथा 6 दिन की पूर्व सूचना पर प्रश्न पूछने का अधिकार मिला।"
+      },
+      {
+        qNum: 34,
+        question: "ब्रिटिश भारत की संस्थाओं एवं सुधारों के संदर्भ में कौन-सा युग्म असुमेलित है?",
+        options: [
+          "(A) आंग्ल शिक्षा समर्थक नेता — ट्रेविलियन",
+          "(B) भारत का प्रथम गवर्नर जनरल — लॉर्ड कैनिंग",
+          "(C) प्राच्य शिक्षा समर्थक नेता — एच.टी. प्रिंसेप",
+          "(D) वायसराय की कार्यकारी परिषद के प्रथम भारतीय सदस्य — सत्येंद्र प्रसन्न सिन्हा"
+        ],
+        ans: 1,
+        explanation: "भारत का प्रथम गवर्नर जनरल लॉर्ड विलियम बैंटिक (1833) था, जबकि लॉर्ड कैनिंग 1858 में भारत का प्रथम वायसराय बना था।"
+      },
+      {
+        qNum: 35,
+        question: "भारत में संवैधानिक विकास के अंतर्गत ईस्ट इंडिया कंपनी के शासनकाल के प्रमुख अधिनियमों का सही कालानुक्रमिक क्रम कौन-सा है?",
+        options: [
+          "(A) रेगुलेटिंग एक्ट, 1773 → चार्टर एक्ट, 1813 → पिट्स इंडिया एक्ट, 1784 → चार्टर एक्ट, 1833",
+          "(B) पिट्स इंडिया एक्ट, 1784 → रेगुलेटिंग एक्ट, 1773 → चार्टर एक्ट, 1833 → चार्टर एक्ट, 1813",
+          "(C) रेगुलेटिंग एक्ट, 1773 → पिट्स इंडिया एक्ट, 1784 → चार्टर एक्ट, 1813 → चार्टर एक्ट, 1833",
+          "(D) चार्टर एक्ट, 1813 → पिट्स इंडिया एक्ट, 1784 → रेगुलेटिंग एक्ट, 1773 → चार्टर एक्ट, 1833"
+        ],
+        ans: 2,
+        explanation: "कंपनी के शासन के दौरान 1773 में रेगुलेटिंग एक्ट, 1784 में पिट्स इंडिया एक्ट, 1813 और 1833 में चार्टर एक्ट पारित किए गए।"
+      },
+      {
+        qNum: 36,
+        question: "निम्नलिखित में से कौन-सा क्रम 1935 के भारत शासन अधिनियम के प्रमुख प्रावधानों से सबसे अधिक संबंधित है?",
+        options: [
+          "(A) बोर्ड ऑफ कंट्रोल की समाप्ति → 1773 का न्यायालय → अखिल भारतीय संघ की स्थापना",
+          "(B) अखिल भारतीय संघ का प्रस्ताव → प्रांतों में द्वैध शासन की समाप्ति → बर्मा को भारत से अलग किया जाना",
+          "(C) प्रांतों में द्वैध शासन की स्थापना → कलकत्ता में सर्वोच्च न्यायालय → वायसराय पद का सृजन",
+          "(D) बर्मा का विलय → प्रांतों में द्वैध शासन का प्रारंभ → बोर्ड ऑफ कंट्रोल का गठन"
+        ],
+        ans: 1,
+        explanation: "1935 के एक्ट ने अखिल भारतीय संघ का प्रस्ताव रखा, प्रांतों में द्वैध शासन हटाकर स्वायत्तता दी और बर्मा को अलग किया।"
+      },
+      {
+        qNum: 37,
+        question: "ब्रिटिश संसद द्वारा पारित भारतीय स्वतंत्रता अधिनियम, 1947 का मुख्य प्रावधान किस पर आधारित है?",
+        options: [
+          "(A) भारत को ब्रिटिश साम्राज्य के अंतर्गत एक अधीनस्थ उपनिवेश बनाए रखने पर",
+          "(B) केवल मुस्लिम लीग को सत्ता हस्तांतरित करने की योजना पर",
+          "(C) भारत में ईस्ट इंडिया कंपनी का दोहरा नियंत्रण पुनः बहाल करने पर",
+          "(D) भारत और पाकिस्तान नामक दो स्वतंत्र व संप्रभु डोमिनियन की स्थापना तथा वायसराय पद की समाप्ति पर"
+        ],
+        ans: 3,
+        explanation: "1947 के अधिनियम ने 15 अगस्त 1947 को भारत और पाकिस्तान दो संप्रभु डोमिनियन बनाए और वायसराय पद समाप्त किया।"
+      },
+      {
+        qNum: 38,
+        question: "ब्रिटिश भारत में सर्वोच्च एवं संघीय न्यायालयों से संबंधित घटनाओं को कालानुक्रम (प्राचीन से नवीन) व्यवस्थित कीजिए:<br>1. 1773 के एक्ट द्वारा कलकत्ता में न्यायालय का प्रावधान<br>2. 1774 में कलकत्ता उच्चतम न्यायालय की स्थापना<br>3. 1935 के अधिनियम के तहत संघीय न्यायालय का प्रावधान<br>4. वर्ष 1937 में संघीय न्यायालय की विधिवत स्थापना",
+        options: [
+          "(A) 1, 3, 2, 4",
+          "(B) 2, 1, 4, 3",
+          "(C) 1, 2, 3, 4",
+          "(D) 4, 3, 2, 1"
+        ],
+        ans: 2,
+        explanation: "कलकत्ता सुप्रीम कोर्ट का प्रावधान 1773 में हुआ व स्थापना 1774 में हुई; फेडरल कोर्ट का प्रावधान 1935 में और स्थापना 1937 में हुई।"
+      },
+      {
+        qNum: 39,
+        question: "निम्न में से कौन-सा युग्म सही है?",
+        options: [
+          "(A) 1892 का भारतीय परिषद अधिनियम — प्रांतीय स्वायत्तता की पूर्ण स्थापना",
+          "(B) 1858 का भारत शासन अधिनियम — भारत के राज्य सचिव (Secretary of State) पद का सृजन",
+          "(C) 1813 का चार्टर एक्ट — बंगाल में सर्वोच्च न्यायालय की स्थापना",
+          "(D) 1935 का भारत सरकार अधिनियम — केंद्र में द्विसदनीय व्यवस्था की पहली बार शुरुआत"
+        ],
+        ans: 1,
+        explanation: "1858 के अधिनियम द्वारा कंपनी शासन समाप्त कर ब्रिटिश ताज के अधीन भारत के राज्य सचिव पद का सृजन किया गया था।"
+      },
+      {
+        qNum: 40,
+        question: "विभिन्न अधिनियमों और उनके द्वारा प्रारंभ की गई व्यवस्थाओं का सही मिलान कीजिए:<br>(A) रेगुलेटिंग एक्ट, 1773<br>(B) भारत परिषद अधिनियम, 1861<br>(C) भारत परिषद अधिनियम, 1909<br><br>विशेषताएं :<br>1. कलकत्ता में 1774 में उच्चतम न्यायालय की स्थापना<br>2. विभागीय (पोर्टफोलियो) व्यवस्था एवं विकेंद्रीकरण<br>3. मुस्लिमों के लिए पृथक निर्वाचन",
+        options: [
+          "(A) A-1, B-3, C-2",
+          "(B) A-2, B-1, C-3",
+          "(C) A-1, B-2, C-3",
+          "(D) A-3, B-1, C-2"
+        ],
+        ans: 2,
+        explanation: "1773 से कलकत्ता न्यायालय, 1861 से विभागीय व्यवस्था व विकेंद्रीकरण, और 1909 से पृथक सांप्रदायिक निर्वाचन प्रारंभ हुआ।"
+      }
+    ];
+
+    // ================= APP STATE VARIABLES =================
+    let currentQ = 0;
+    let userAnswers = new Array(40).fill(null); // stores selected option index (0,1,2,3)
+    let userStates = new Array(40).fill('not_visited'); // 'not_visited', 'not_answered', 'answered', 'review'
+    let overallSeconds = 2400; // 40 minutes = 2400 sec
+    let questionSeconds = 72; // 01:12 = 72 sec
+    let overallTimerInterval = null;
+    let questionTimerInterval = null;
+    let isReviewMode = false;
+
+    // ================= PHASE TRANSITION FUNCTIONS =================
+    function goToInstructions() {
+      const name = document.getElementById('studentName').value.trim();
+      const roll = document.getElementById('studentRoll').value.trim();
+      if(!name || !roll) return;
+
+      document.getElementById('dispStudentName').textContent = name;
+      document.getElementById('dispStudentRoll').textContent = roll;
+
+      document.getElementById('phase1').classList.add('hidden');
+      document.getElementById('phase2').classList.remove('hidden');
+    }
+
+    function startTest() {
+      document.getElementById('phase2').classList.add('hidden');
+      document.getElementById('phase3').classList.remove('hidden');
+
+      initPaletteGrid();
+      loadQuestion(0);
+      startTimers();
+    }
+
+    // ================= TIMERS ENGINE =================
+    function startTimers() {
+      overallTimerInterval = setInterval(() => {
+        if(overallSeconds > 0) {
+          overallSeconds--;
+          updateOverallDisplay();
+        } else {
+          submitTest();
+        }
+      }, 1000);
+
+      resetQuestionTimer();
+    }
+
+    function resetQuestionTimer() {
+      clearInterval(questionTimerInterval);
+      questionSeconds = 72; // 1 min 12 sec reset
+      updateQuestionTimerDisplay();
+
+      questionTimerInterval = setInterval(() => {
+        if(questionSeconds > 0) {
+          questionSeconds--;
+          updateQuestionTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function updateOverallDisplay() {
+      const mins = Math.floor(overallSeconds / 60);
+      const secs = overallSeconds % 60;
+      document.getElementById('overallTimer').textContent = 
+        `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function updateQuestionTimerDisplay() {
+      const mins = Math.floor(questionSeconds / 60);
+      const secs = questionSeconds % 60;
+      document.getElementById('qTimer').textContent = 
+        `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // ================= QUESTION RENDER ENGINE =================
+    function loadQuestion(index) {
+      currentQ = index;
+      const data = quizData[currentQ];
+
+      // Mark visited if not visited
+      if(userStates[currentQ] === 'not_visited' && !isReviewMode) {
+        userStates[currentQ] = 'not_answered';
+      }
+
+      // Reset question countdown timer
+      if(!isReviewMode) resetQuestionTimer();
+
+      // UI Text Binding
+      document.getElementById('qNumHeading').textContent = `प्रश्न ${data.qNum} / 40`;
+      document.getElementById('questionText').innerHTML = data.question;
+
+      // Render Options
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+
+      data.options.forEach((optText, optIdx) => {
+        const isSelected = userAnswers[currentQ] === optIdx;
+        let borderClass = "border-gray-200 hover:border-blue-400 bg-white";
+        let circleClass = "border-gray-300 bg-white";
+
+        if(isReviewMode) {
+          if(optIdx === data.ans) {
+            borderClass = "border-green-500 bg-green-50 text-green-900 font-medium";
+            circleClass = "border-green-600 bg-green-600 text-white";
+          } else if(isSelected && isSelected !== data.ans) {
+            borderClass = "border-red-500 bg-red-50 text-red-900";
+            circleClass = "border-red-600 bg-red-600 text-white";
+          }
+        } else if(isSelected) {
+          borderClass = "border-blue-600 bg-blue-50/80 text-blue-900 font-medium shadow-sm";
+          circleClass = "border-blue-600 bg-blue-600 text-white";
+        }
+
+        const div = document.createElement('div');
+        div.className = `p-3 sm:p-3.5 rounded-xl border text-xs sm:text-sm cursor-pointer transition flex items-start gap-3 ${borderClass}`;
+        div.onclick = () => selectOption(optIdx);
+
+        div.innerHTML = `
+          <div class="w-5 h-5 rounded-full border ${circleClass} flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
+            ${isSelected ? '<i class="fa-solid fa-check text-[10px]"></i>' : ''}
+          </div>
+          <div class="flex-1 leading-normal">${optText}</div>
+        `;
+        container.appendChild(div);
+      });
+
+      // Explanation Box handling in Review Mode
+      const expBox = document.getElementById('explanationBox');
+      if(isReviewMode) {
+        expBox.classList.remove('hidden');
+        document.getElementById('explanationText').innerHTML = data.explanation;
+      } else {
+        expBox.classList.add('hidden');
+      }
+
+      updateStatusBadge();
+      updatePaletteUI();
+      
+      // Trigger MathJax re-render if mathematical symbols present
+      if(window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function selectOption(optIdx) {
+      if(isReviewMode) return;
+      userAnswers[currentQ] = optIdx;
+      userStates[currentQ] = 'answered';
+      loadQuestion(currentQ);
+    }
+
+    function clearResponse() {
+      if(isReviewMode) return;
+      userAnswers[currentQ] = null;
+      userStates[currentQ] = 'not_answered';
+      loadQuestion(currentQ);
+    }
+
+    function saveAndNext() {
+      if(!isReviewMode) {
+        if(userAnswers[currentQ] !== null) {
+          userStates[currentQ] = 'answered';
+        } else {
+          userStates[currentQ] = 'not_answered';
+        }
+      }
+      if(currentQ < 39) loadQuestion(currentQ + 1);
+    }
+
+    function markForReviewAndNext() {
+      if(!isReviewMode) {
+        userStates[currentQ] = 'review';
+      }
+      if(currentQ < 39) loadQuestion(currentQ + 1);
+    }
+
+    function previousQuestion() {
+      if(currentQ > 0) loadQuestion(currentQ - 1);
+    }
+
+    // ================= PALETTE & DRAWER LOGIC =================
+    function initPaletteGrid() {
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+      for(let i = 0; i < 40; i++) {
+        const btn = document.createElement('button');
+        btn.id = `paletteBtn_${i}`;
+        btn.className = `w-10 h-10 rounded-lg text-xs font-bold transition flex items-center justify-center border shadow-sm bg-gray-200 text-gray-700 border-gray-300`;
+        btn.textContent = i + 1;
+        btn.onclick = () => {
+          loadQuestion(i);
+          toggleDrawer();
+        };
+        grid.appendChild(btn);
+      }
+    }
+
+    function updatePaletteUI() {
+      let ansCount = 0, notAnsCount = 0, revCount = 0, notVisCount = 0;
+
+      for(let i = 0; i < 40; i++) {
+        const btn = document.getElementById(`paletteBtn_${i}`);
+        if(!btn) continue;
+
+        const state = userStates[i];
+        btn.className = "w-10 h-10 rounded-lg text-xs font-bold transition flex items-center justify-center border shadow-sm ";
+
+        if(state === 'answered') {
+          btn.classList.add('bg-green-500', 'text-white', 'border-green-600');
+          ansCount++;
+        } else if(state === 'not_answered') {
+          btn.classList.add('bg-red-500', 'text-white', 'border-red-600');
+          notAnsCount++;
+        } else if(state === 'review') {
+          btn.classList.add('bg-purple-600', 'text-white', 'border-purple-700');
+          revCount++;
+        } else {
+          btn.classList.add('bg-gray-200', 'text-gray-700', 'border-gray-300');
+          notVisCount++;
+        }
+
+        if(i === currentQ) {
+          btn.classList.add('ring-2', 'ring-blue-900', 'ring-offset-2');
+        }
+      }
+
+      document.getElementById('countAnswered').textContent = `उत्तर दिया: ${ansCount}`;
+      document.getElementById('countNotAnswered').textContent = `उत्तर नहीं दिया: ${notAnsCount}`;
+      document.getElementById('countReview').textContent = `रिव्यू हेतु: ${revCount}`;
+      document.getElementById('countNotVisited').textContent = `नहीं देखा: ${notVisCount}`;
+    }
+
+    function updateStatusBadge() {
+      const badge = document.getElementById('qStatusBadge');
+      const state = userStates[currentQ];
+
+      if(state === 'answered') {
+        badge.textContent = "उत्तर दिया गया";
+        badge.className = "px-2 py-0.5 rounded bg-green-100 text-green-800 font-medium";
+      } else if(state === 'review') {
+        badge.textContent = "रिव्यू हेतु चिह्नित";
+        badge.className = "px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-medium";
+      } else if(state === 'not_answered') {
+        badge.textContent = "उत्तर नहीं दिया";
+        badge.className = "px-2 py-0.5 rounded bg-red-100 text-red-800 font-medium";
+      } else {
+        badge.textContent = "देख रहे हैं";
+        badge.className = "px-2 py-0.5 rounded bg-gray-100 text-gray-600 font-medium";
+      }
+    }
+
+    function toggleDrawer() {
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      if(drawer.classList.contains('translate-x-full')) {
+        drawer.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+      } else {
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+      }
+    }
+
+    function toggleLanguage() {
+      alert("यह परीक्षण मुख्य रूप से हिंदी भाषा में संरचित है।");
+    }
+
+    // ================= SUBMISSION & EVALUATION ENGINE =================
+    function confirmSubmit() {
+      if(confirm("क्या आप निश्चित रूप से परीक्षण जमा करना चाहते हैं?")) {
+        submitTest();
+      }
+    }
+
+    function submitTest() {
+      clearInterval(overallTimerInterval);
+      clearInterval(questionTimerInterval);
+
+      let correct = 0;
+      let wrong = 0;
+
+      for(let i = 0; i < 40; i++) {
+        if(userAnswers[i] !== null) {
+          if(userAnswers[i] === quizData[i].ans) {
+            correct++;
+          } else {
+            wrong++;
+          }
+        }
+      }
+
+      const percent = Math.round((correct / 40) * 100);
+
+      document.getElementById('scoreMarks').textContent = `${correct} / 40`;
+      document.getElementById('scoreCorrect').textContent = correct;
+      document.getElementById('scoreWrong').textContent = wrong;
+      document.getElementById('scorePercent').textContent = `${percent}%`;
+
+      const badge = document.getElementById('scoreBadge');
+      if(percent >= 70) {
+        badge.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-lg bg-green-100 text-green-600";
+        badge.innerHTML = '<i class="fa-solid fa-trophy"></i>';
+        document.getElementById('resultTitle').textContent = "उत्कृष्ट प्रदर्शन! (Pass)";
+      } else {
+        badge.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-lg bg-yellow-100 text-yellow-600";
+        badge.innerHTML = '<i class="fa-solid fa-chart-line"></i>';
+        document.getElementById('resultTitle').textContent = "सुधार की आवश्यकता है (Practice More)";
+      }
+
+      document.getElementById('phase3').classList.add('hidden');
+      document.getElementById('phaseScore').classList.remove('hidden');
+    }
+
+    function reviewTest() {
+      isReviewMode = true;
+      document.getElementById('phaseScore').classList.add('hidden');
+      document.getElementById('phase3').classList.remove('hidden');
+      loadQuestion(0);
+    }
+  </script>
+</body>
+</html>
+```eof
+
+I have generated the interactive single-page mock test app featuring all 40 questions on Indian Constitutional Development. You can use this web app to test your knowledge or review detailed step-by-step solutions for every question. Good luck with your preparation!
